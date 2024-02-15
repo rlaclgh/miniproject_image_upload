@@ -1,33 +1,25 @@
 "use client";
 import Header from "@/components/header";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [helloWorld, setHelloWorld] = useState("불러오는중....");
-
-  useEffect(() => {
-    const getHelloWorld = async () => {
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_SERVER_URL || "http://127.0.0.1:8080",
-        {
-          method: "GET",
-        }
-      );
-      const result = await response.text();
-
-      setHelloWorld(result);
-    };
-
-    getHelloWorld();
-  }, []);
-
+  const router = useRouter();
   return (
     <div>
-      <Header renderCenter={() => <div>메인 페이지</div>} />
-
-      <div className="flex justify-center items-center h-screen">
-        <div>{helloWorld}</div>
-      </div>
+      <Header
+        renderCenter={() => <div>이미지 갤러리</div>}
+        renderRight={() => (
+          <button
+            className="bg-blue h-8 pr-2 pl-2 rounded-xl"
+            onClick={() => {
+              router.push("/upload");
+            }}
+          >
+            <span className="text-white text-base">생성</span>
+          </button>
+        )}
+      />
     </div>
   );
 }
