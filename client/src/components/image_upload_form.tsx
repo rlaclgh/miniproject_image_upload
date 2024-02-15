@@ -6,12 +6,17 @@ import Image from "next/image";
 import TextButton from "./text_button";
 import { useCreatePreSignedUrl } from "@/query/image";
 import axios from "axios";
+import { useCreateGallery } from "@/query/gallery";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { RULES } from "@/constants/rules";
 
 interface FormProps {
   imageUrl: string;
 }
 
 const ImageUploadForm = () => {
+  const router = useRouter();
   const { control, formState, getValues } = useForm<FormProps>({
     defaultValues: {
       imageUrl: "",
@@ -21,12 +26,23 @@ const ImageUploadForm = () => {
     reValidateMode: "onChange",
   });
 
-  const { mutateAsync: createPreSignedUrl } = useCreatePreSignedUrl();
+  const { mutateAsync: createPreSignedUrl } = useCreatePreSignedUrl({
+    onSuccess: () => {
+      toast.success("presigned url을 생성했습니다.");
+    },
+  });
+  const { mutate: createGallery } = useCreateGallery({
+    onSuccess: () => {
+      toast.success("갤러리를 생성했습니다.");
+      router.push("/");
+    },
+  });
   return (
     <div className="p-4">
       <Controller
         name="imageUrl"
         control={control}
+        rules={RULES.REQUIRED}
         render={({ field: { onChange, value } }) => {
           return (
             <>
@@ -115,7 +131,13 @@ const ImageUploadForm = () => {
 
       <div className="h-4" />
 
-      <TextButton text="업로드" onClick={() => {}} disabled={false} />
+      <TextButton
+        text="업로드"
+        onClick={() => {
+          createGallery({ imageUrl: getValues("imageUrl") });
+        }}
+        disabled={!formState.isValid}
+      />
     </div>
   );
 };

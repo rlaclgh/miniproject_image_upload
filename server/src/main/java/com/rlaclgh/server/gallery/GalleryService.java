@@ -17,8 +17,6 @@ public class GalleryService {
   @Autowired
   private GalleryRepository galleryRepository;
 
-
-
   public Gallery createGallery(CreateGalleryRequest createGalleryRequest) {
     Gallery createdGallery = galleryRepository.save(new Gallery(createGalleryRequest.getImageUrl()));
 
