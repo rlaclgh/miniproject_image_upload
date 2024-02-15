@@ -16,7 +16,6 @@
 aws.accessKeyId = AWS_ACCESS_KEY
 aws.secretKey = AWS_SECRET_KEY
 
-
 ```
 
 2. client/next.config.mjs 수정
@@ -30,7 +29,6 @@ images: {
       },
     ],
   },
-
 
 ```
 
