@@ -28,13 +28,8 @@ export default function Home() {
       <div className="flex flex-wrap">
         {galleries?.map((gallery) => {
           return (
-            <div className="w-4/12 aspect-square relative">
-              <Image
-                src={gallery.imageUrl}
-                key={gallery.id}
-                fill={true}
-                alt="갤러리 이미지"
-              />
+            <div className="w-4/12 aspect-square relative" key={gallery.id}>
+              <Image src={gallery.imageUrl} fill={true} alt="갤러리 이미지" />
             </div>
           );
         })}
