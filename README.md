@@ -6,6 +6,7 @@
 
 ## 실행결과
 
+<img src="https://github.com/rlaclgh/miniproject_image_upload/assets/46914232/42598415-2151-4956-88b1-315309e9f83b" width="600px"></img>
 
 
 ## 실행방법
@@ -15,6 +16,7 @@
 
 aws.accessKeyId = AWS_ACCESS_KEY
 aws.secretKey = AWS_SECRET_KEY
+
 
 ```
 
@@ -29,6 +31,7 @@ images: {
       },
     ],
   },
+
 
 ```
 
