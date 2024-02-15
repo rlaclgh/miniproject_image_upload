@@ -4,6 +4,8 @@ import CameraSVG from "@/public/camera.svg";
 import XmarkSVG from "@/public/x-mark.svg";
 import Image from "next/image";
 import TextButton from "./text_button";
+import { useCreatePreSignedUrl } from "@/query/image";
+import axios from "axios";
 
 interface FormProps {
   imageUrl: string;
@@ -18,6 +20,8 @@ const ImageUploadForm = () => {
     mode: "onChange",
     reValidateMode: "onChange",
   });
+
+  const { mutateAsync: createPreSignedUrl } = useCreatePreSignedUrl();
   return (
     <div className="p-4">
       <Controller
@@ -53,26 +57,26 @@ const ImageUploadForm = () => {
                       const objectURL = URL.createObjectURL(file);
                       onChange(objectURL);
 
-                      //   const result = await createPreSignedUrl({
-                      //     contentType: file.type,
-                      //   });
+                      const result = await createPreSignedUrl({
+                        contentType: file.type,
+                      });
 
-                      //   try {
-                      //     await axios.put(result.data.url, file, {
-                      //       headers: {
-                      //         "Content-Type": file.type,
-                      //       },
-                      //       // onUploadProgress: (progressEvent) => {
-                      //       //   const percentCompleted = Math.round(
-                      //       //     (progressEvent.loaded * 100) / progressEvent.total
-                      //       //   );
-                      //       // },
-                      //     });
+                      try {
+                        await axios.put(result.data.url, file, {
+                          headers: {
+                            "Content-Type": file.type,
+                          },
+                          // onUploadProgress: (progressEvent) => {
+                          //   const percentCompleted = Math.round(
+                          //     (progressEvent.loaded * 100) / progressEvent.total
+                          //   );
+                          // },
+                        });
 
-                      //     onChange(result?.data?.url.split("?X")[0]);
-                      //   } catch (error) {
-                      //     console.log("🚀 ~ onChange={ ~ error:", error);
-                      //   }
+                        onChange(result?.data?.url.split("?X")[0]);
+                      } catch (error) {
+                        console.log("🚀 ~ onChange={ ~ error:", error);
+                      }
                     }}
                   />
                 </div>
@@ -96,7 +100,7 @@ const ImageUploadForm = () => {
                       color="white"
                       width={16}
                       height={16}
-                      className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red"
+                      className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-black"
                       onClick={() => {
                         onChange("");
                       }}
